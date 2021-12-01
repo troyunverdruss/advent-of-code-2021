@@ -1,8 +1,24 @@
 defmodule AOC.Day01 do
-  def part1() do
-    string_data = File.read!("input/day01.txt") |> String.split("\n", trim: true)
+  def run() do
+    string_data = AOC.Utils.read_input_to_strings(1)
     data_numbers = Enum.map(string_data, fn x -> String.to_integer(x) end)
-    sum = Enum.at(data_numbers, 0) + Enum.at(data_numbers, 1)
-    IO.puts sum
+
+    part1 = data_numbers
+          |> Enum.chunk_every(2, 1, :discard)
+          |> Enum.count(
+                   fn ([a, b | _rest]) ->
+                     b > a
+                   end
+                 )
+    IO.puts("Part 1: #{part1}")
+
+    part2 = data_numbers
+               |> Enum.chunk_every(4, 1, :discard)
+               |> Enum.count(
+                    fn ([a, _b, _c, d | _rest]) ->
+                      d > a
+                    end
+                  )
+    IO.puts("Part 2: #{part2}")
   end
 end
