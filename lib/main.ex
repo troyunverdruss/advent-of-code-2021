@@ -4,7 +4,7 @@ defmodule AOC.Main do
   def start(_type, _args) do
     IO.puts "starting"
 
-    AOC.Day03.run()
+    AOC.Day04.run()
 
     children = []
     Supervisor.start_link(children, strategy: :one_for_one)

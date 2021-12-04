@@ -7,4 +7,8 @@ defmodule AOC.Utils do
   def read_input_to_strings(path) do
     File.read!(path) |> String.split("\n", trim: true)
   end
+
+  def read_input_to_strings_with_delim(path, delim) do
+    File.read!(path) |> String.split(delim, trim: true)
+  end
 end
