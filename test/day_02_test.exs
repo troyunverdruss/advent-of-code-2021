@@ -14,12 +14,12 @@ defmodule AOCTest.Day02 do
 
 
   test "verify part 1" do
-    steps = AOC.Day02.compute_steps(input())
-    assert AOC.Day02.part1(steps) == 150
+    steps = Aoc.Day02.compute_steps(input())
+    assert Aoc.Day02.part1(steps) == 150
   end
 
   test "verify part 2" do
-    steps = AOC.Day02.compute_steps(input())
-    assert AOC.Day02.part2(steps) == 900
+    steps = Aoc.Day02.compute_steps(input())
+    assert Aoc.Day02.part2(steps) == 900
   end
 end

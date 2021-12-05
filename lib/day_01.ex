@@ -1,6 +1,6 @@
-defmodule AOC.Day01 do
+defmodule Aoc.Day01 do
   def run() do
-    string_data = AOC.Utils.read_input_to_strings(1)
+    string_data = Aoc.Utils.read_input_to_strings(1)
     data_numbers = Enum.map(string_data, fn x -> String.to_integer(x) end)
 
     part1(data_numbers)

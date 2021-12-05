@@ -27,12 +27,18 @@ defmodule AOCTest.Day04 do
 
 
     test "verify part 1" do
-#      assert AOC.Day03.part1(input()) == 198
+    [raw_called_numbers | raw_boards] = String.split(input(), "\n\n")
+    called_numbers = String.split(raw_called_numbers, ",")
+    boards = Aoc.Day04.process_raw_boards(raw_boards)
+
+    assert Aoc.Day04.part1(called_numbers, boards) == 4512
     end
 
   test "verify part 2" do
-    [called_numbers_str | boards_raw] = String.split(input(), "\n\n")
-    called_numbers = String.split(called_numbers_str, ",")
-    assert AOC.Day04.part2(called_numbers, boards_raw) == 1924
+    [raw_called_numbers | raw_boards] = String.split(input(), "\n\n")
+    called_numbers = String.split(raw_called_numbers, ",")
+    boards = Aoc.Day04.process_raw_boards(raw_boards)
+
+    assert Aoc.Day04.part2(called_numbers, boards) == 1924
   end
 end
