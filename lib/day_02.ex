@@ -1,6 +1,6 @@
-defmodule AOC.Day02 do
+defmodule Aoc.Day02 do
   def run() do
-    string_data = AOC.Utils.read_input_to_strings(2)
+    string_data = Aoc.Utils.read_input_to_strings(2)
 
     steps = compute_steps(string_data)
 

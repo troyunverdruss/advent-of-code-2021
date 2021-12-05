@@ -20,10 +20,10 @@ defmodule AOCTest.Day03 do
 
 
     test "verify part 1" do
-      assert AOC.Day03.part1(input()) == 198
+      assert Aoc.Day03.part1(input()) == 198
     end
 
   test "verify part 2" do
-    assert AOC.Day03.part2(input()) == 230
+    assert Aoc.Day03.part2(input()) == 230
   end
 end

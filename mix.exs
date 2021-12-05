@@ -1,4 +1,4 @@
-defmodule AOC.MixProject do
+defmodule Aoc.MixProject do
   use Mix.Project
 
   def project do
@@ -14,7 +14,7 @@ defmodule AOC.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      mod: {AOC.Main, []},
+#      mod: {Aoc.Main, []},
       extra_applications: [
         :logger,
         :debugger

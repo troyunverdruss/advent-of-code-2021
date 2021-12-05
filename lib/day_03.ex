@@ -1,6 +1,6 @@
-defmodule AOC.Day03 do
+defmodule Aoc.Day03 do
   def run() do
-    string_data = AOC.Utils.read_input_to_strings(3)
+    string_data = Aoc.Utils.read_input_to_strings(3)
 
     part1 = part1(string_data)
     IO.puts "Part 1: #{part1}"
