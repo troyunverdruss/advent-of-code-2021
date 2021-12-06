@@ -1,4 +1,4 @@
-defmodule AOCTest.Day04 do
+defmodule AOCTest.Day05 do
   use ExUnit.Case
 
   def input do
