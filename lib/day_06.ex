@@ -3,8 +3,6 @@ defmodule Aoc.Day06 do
 
   def run() do
     [input | _] = Aoc.Utils.read_input_to_strings(6)
-    IEx.pry()
-
 
     part1 = model_fish_growth(input, 80)
     IO.puts("Part 1: #{part1}")

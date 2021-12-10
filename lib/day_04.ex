@@ -9,8 +9,6 @@ defmodule Aoc.Day04 do
     called_numbers = String.split(raw_called_numbers, ",")
     boards = process_raw_boards(raw_boards)
 
-    IEx.pry()
-
     part1 = part1(called_numbers, boards)
     IO.puts("Part 1: #{part1}")
 
