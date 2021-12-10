@@ -4,8 +4,10 @@ defmodule Aoc.Day02 do
 
     steps = compute_steps(string_data)
 
-    part1(steps)
-    part2(steps)
+    part1 = part1(steps)
+    IO.puts("Part 1: #{part1}")
+    part2 = part2(steps)
+    IO.puts("Part 2: #{part2}")
   end
 
   def compute_steps(string_data) do
@@ -29,9 +31,7 @@ defmodule Aoc.Day02 do
             |> Enum.map(fn x -> elem(x, 1) end)
             |> Enum.sum()
 
-    part1_result = distance * depth
-    IO.puts("Part 1: #{part1_result}")
-    part1_result
+    distance * depth
   end
 
   def part2(steps) do
@@ -41,9 +41,7 @@ defmodule Aoc.Day02 do
                         fn (x, acc) -> part2_reducer(x, acc) end
                       )
 
-    part2_result = part2_values[:depth] * part2_values[:distance]
-    IO.puts("Part 2: #{part2_result}")
-    part2_result
+    part2_values[:depth] * part2_values[:distance]
   end
 
   defp part2_reducer(x, acc) do

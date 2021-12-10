@@ -3,19 +3,28 @@ defmodule Aoc.Day09 do
 
   def run() do
     input = Aoc.Utils.read_input_to_strings(9)
+
+    part1 =part1(input)
+    IO.puts("Part 1: #{part1}")
+    part2 = part2(input)
+    IO.puts("Part 2: #{part2}")
+  end
+
+  def part1(input) do
     grid = parse_input(input)
     low_point_vals = filter_for_low_point_vals(grid) |> Enum.filter(fn x -> x != nil end)
-    part1 = low_point_vals  |> Enum.map(fn x -> x+1 end) |> Enum.sum()
-    IO.puts("Part 1: #{part1}")
+    low_point_vals  |> Enum.map(fn x -> x+1 end) |> Enum.sum()
+  end
 
+  def part2(input) do
+    grid = parse_input(input)
     low_points = filter_for_low_points(grid) |> Enum.filter(fn x -> x != nil end)
 
     {:ok, visited_agent} = Agent.start_link fn -> MapSet.new() end
     basins = Enum.map(low_points, fn p -> find_basin(grid, p, visited_agent, 0) end)
     Agent.stop(visited_agent)
 
-    part2 = basins |> Enum.sort() |> Enum.reverse() |> Enum.take(3) |> Enum.product()
-    IO.puts("Part 2: #{part2}")
+    basins |> Enum.sort() |> Enum.reverse() |> Enum.take(3) |> Enum.product()
   end
 
   def parse_input(input) do

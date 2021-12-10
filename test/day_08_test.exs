@@ -25,7 +25,7 @@ defmodule AOCTest.Day08 do
 
   test "test part2 solve row" do
     row = "acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf"
-    [left_group | [right_group | _]] = String.split(row, "|")
+    [left_group | _ ] = String.split(row, "|")
     [n0, n1, n2, n3, n4, n5, n6, n7, n8, n9] = Aoc.Day08.solve_row(left_group)
 
     assert n8 == MapSet.new(String.split("acedgfb", "", trim: true))
