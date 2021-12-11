@@ -13,6 +13,7 @@ defmodule Mix.Tasks.Day do
       "8" -> Aoc.Day08.run()
       "9" -> Aoc.Day09.run()
       "10" -> Aoc.Day10.run()
+      "11" -> Aoc.Day11.run()
     end
   end
 end
