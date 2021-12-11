@@ -40,7 +40,6 @@ defmodule AOCTest.Day11 do
     {new_grid, flashed} = Aoc.Day11.step(grid)
 
     assert flashed == 9
-    IO.inspect new_grid
   end
 
   @tag timeout: :infinity
