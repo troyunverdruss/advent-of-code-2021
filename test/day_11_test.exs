@@ -37,7 +37,7 @@ defmodule AOCTest.Day11 do
   test "part 1 sample flashing" do
     grid = Aoc.Day11.parse_input(sample_flashing())
 
-    {new_grid, flashed} = Aoc.Day11.step(grid)
+    {_, flashed} = Aoc.Day11.step(grid)
 
     assert flashed == 9
   end
