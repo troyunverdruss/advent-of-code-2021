@@ -2,6 +2,13 @@ require IEx
 defmodule Aoc.Day11 do
 
   def run() do
+#    Stream.unfold(5, fn
+#        0 -> nil
+#        n -> {n, n - 1}
+#      end) |> Enum.find(fn x -> x == 3 end)
+#
+#    IEx.pry()
+
     input = Aoc.Utils.read_input_to_strings(11)
     grid = parse_input(input)
 
@@ -26,22 +33,18 @@ defmodule Aoc.Day11 do
 
   def part2(grid) do
     total = Enum.count(grid)
-    try do
-      Enum.reduce(
-        1..1000,
-        grid,
-        fn step, new_grid ->
-          {new_grid, new_flashed} = step(new_grid)
-          if new_flashed == total do
-            throw step
-          end
-          new_grid
-        end
-      )
-      raise "no sync step"
-    catch
-      x -> x
-    end
+
+    stream = Stream.unfold(
+      {0, grid, false},
+      fn n ->
+        {step, grid, _} = n
+        {new_grid, new_flashed} = step(grid)
+        new_stop = new_flashed == total
+        {n, {step + 1, new_grid, new_stop}}
+      end
+    )
+    result = Enum.find(stream, fn {_, _, x} -> x end)
+    elem(result, 0)
   end
 
   def parse_input(input) do
