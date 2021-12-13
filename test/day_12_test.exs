@@ -92,33 +92,4 @@ defmodule AOCTest.Day12 do
 
     assert Aoc.Day12.part2(caves) == 3509
   end
-
-
-
-  #  @tag timeout: :infinity
-  #  test "part 1 mini flashing" do
-  #    grid = Aoc.Day11.parse_input(mini_flashing())
-  #
-  #    flashed = Aoc.Day11.part1(grid, 2)
-  #
-  #    assert flashed == 1
-  #  end
-  #
-  #  @tag timeout: :infinity
-  #  test "part 1" do
-  #    grid = Aoc.Day11.parse_input(input())
-  #
-  #    flashed = Aoc.Day11.part1(grid, 10)
-  #
-  #    assert flashed == 204
-  #  end
-  #
-  #  @tag timeout: :infinity
-  #  test "part 2" do
-  #    grid = Aoc.Day11.parse_input(input())
-  #
-  #    step = Aoc.Day11.part2(grid)
-  #
-  #    assert step == 195
-  #  end
 end
