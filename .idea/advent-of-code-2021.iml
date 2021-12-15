@@ -2,8 +2,25 @@
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/secure_random" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/tesseract_ocr" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/mogrify_draw" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/mogrify" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/mogrify_draw" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/tesseract_ocr" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/secure_random" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/mogrify" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="tesseract_ocr" level="project" />
+    <orderEntry type="library" name="secure_random" level="project" />
+    <orderEntry type="library" name="ex_doc" level="project" />
+    <orderEntry type="library" name="credo" level="project" />
+    <orderEntry type="library" name="excoveralls" level="project" />
+    <orderEntry type="library" name="earmark" level="project" />
+    <orderEntry type="library" name="mogrify_draw" level="project" />
+    <orderEntry type="library" name="mogrify" level="project" />
   </component>
 </module>

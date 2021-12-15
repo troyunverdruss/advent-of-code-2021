@@ -1,0 +1,6 @@
+%{
+  "mogrify": {:hex, :mogrify, "0.5.6", "8ba04d4204f7149fac4ca302ca37aeb1550074958bed9fa892fdf6cd46806082", [:mix], [], "hexpm", "68636c4f736872b2aa7b176f7820b8fe59ee2a11db688cf845410ce1a0260ab3"},
+  "mogrify_draw": {:hex, :mogrify_draw, "0.1.1", "858e0eb209bad3d408cfce4845e49e049395f2ae80c0802ecf0b0b8c1b954207", [:mix], [{:mogrify, "~> 0.5.4", [hex: :mogrify, repo: "hexpm", optional: false]}], "hexpm", "3f2e05b6cfa8cdef027bbf3ba14a36253694bac7322a0109b5af019b00665238"},
+  "secure_random": {:hex, :secure_random, "0.5.1", "c5532b37c89d175c328f5196a0c2a5680b15ebce3e654da37129a9fe40ebf51b", [:mix], [], "hexpm", "1b9754f15e3940a143baafd19da12293f100044df69ea12db5d72878312ae6ab"},
+  "tesseract_ocr": {:hex, :tesseract_ocr, "0.1.5", "158d5f1a3b6507655f52c4cb55c7ddf638f1c1ede0dc464e027cd0e01d7c4b64", [:mix], [{:secure_random, ">= 0.0.0", [hex: :secure_random, repo: "hexpm", optional: false]}], "hexpm", "fdc09d9704ba2e162740f651db5a4dcf1643d6cb70e3e8f8d33352e4b6ac6d99"},
+}
