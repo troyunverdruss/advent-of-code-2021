@@ -69,10 +69,14 @@ defmodule Aoc.Day14 do
   end
 
   def compute_frequencies_only(chars, rules, steps) do
+    # Init with last char because it never changes and all subsequent
+    # counting will omit the last char so there's no accidental overlapped counts
+    frequency_map = %{Enum.at(chars, -1) => 1}
+
     {:ok, memo_agent} = Agent.start_link fn -> Map.new() end
     final = Enum.chunk_every(chars, 2, 1, :discard)
             |> Enum.map(fn c -> compute(memo_agent, rules, steps, c) end)
-            |> Enum.reduce(%{Enum.at(chars, -1) => 1}, fn x, acc -> map_merge_sum(x, acc) end)
+            |> Enum.reduce(frequency_map, fn x, acc -> map_merge_sum(x, acc) end)
     Agent.stop(memo_agent)
 
     final
