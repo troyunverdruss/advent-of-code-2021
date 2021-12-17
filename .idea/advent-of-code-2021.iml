@@ -11,8 +11,9 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/tesseract_ocr" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/secure_random" />
       <excludeFolder url="file://$MODULE_DIR$/_build/test/lib/mogrify" />
+      <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 3.8 (advent-of-code-2021)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="tesseract_ocr" level="project" />
     <orderEntry type="library" name="secure_random" level="project" />
