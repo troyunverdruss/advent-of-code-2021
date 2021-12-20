@@ -1,28 +1,53 @@
-import sys
+from __future__ import annotations
+
+import math
+from copy import deepcopy
 from dataclasses import dataclass
-from typing import Optional, Union
-import __future__
+from enum import Enum
+from itertools import permutations
+from typing import Union, List, Optional
+
+
+class Side(Enum):
+    LEFT = 1
+    RIGHT = 2
+
 
 @dataclass
 class Node:
-    parent: int
-    on_left: bool
-    left: int
-    right: int
+    parent: Optional[Node]
+    on_left: Optional[bool]
+    left: Optional[Union[int, Node]]
+    right: Optional[Union[int, Node]]
+
+    def __str__(self):
+        return node_to_string(self)
 
 
-def read_input() -> str:
+def node_to_string(node):
+    if type(node.left) == int:
+        left = str(node.left)
+    else:
+        left = node_to_string(node.left)
+    if type(node.right) == int:
+        right = str(node.right)
+    else:
+        right = node_to_string(node.right)
+    return "[" + ",".join([left, right]) + "]"
+
+
+def read_input() -> List[Node]:
     pairs = []
     with open("../input/day18.txt") as f:
         for line in f.readlines():
             pairs.append(parse_pairs(eval(line), None, False))
-            x = 8
-    
-    return pairs 
-        
+
+    return pairs
+
+
 def parse_pairs(line, parent, on_left) -> Node:
     pair = Node(parent, on_left, None, None)
-    [a,b] = line
+    [a, b] = line
 
     if type(a) == int:
         pair.left = a
@@ -30,18 +55,20 @@ def parse_pairs(line, parent, on_left) -> Node:
         pair.left = parse_pairs(a, pair, True)
     if type(b) == int:
         pair.right = b
-    else: 
-        pair.right = parse_pairs(b, pair, True)
+    else:
+        pair.right = parse_pairs(b, pair, False)
     return pair
 
-def find_pair_to_explode(pair, depth) -> Node:
-    if depth > 5:
+
+def find_pair_to_explode(pair, depth) -> Optional[Union[Node, bool]]:
+    # print(f"{depth}: {pair}")
+    if depth > 4:
         raise Error("Should not be this deep")
-    if depth == 5:
+    if depth == 4:
         if type(pair.left) == Node:
-            return pair
+            return pair.left
         if type(pair.right) == Node:
-            return pair 
+            return pair.right
         return None
     else:
         if type(pair.left) == Node:
@@ -54,38 +81,46 @@ def find_pair_to_explode(pair, depth) -> Node:
                 return right
         return None
 
+
 def update_closest_neighbor_left(pair, value) -> bool:
     parent = pair.parent
     if parent is None:
         return False
     if parent.left != pair:
         if type(parent.left) == int:
-            parent.left = parent.left + value
+            parent.left += value
             return True
         else:
             next = parent.left
+            current_parent = parent
             while type(next) != int:
+                current_parent = next
                 next = next.right
-            next.right = next.right + value           
+            current_parent.right += value
     else:
         if parent.parent is None:
             return False
-        while parent.parent.right != parent:
+        find_parent = True
+        while find_parent:
             if parent.parent is None:
                 return False
+            if parent.parent.left != parent:
+                find_parent = False
             parent = parent.parent
-            
+
         if type(parent.left) == int:
             parent.left += value
             return True
         else:
             next = parent.left
+            current_parent = parent
             while type(next) != int:
+                current_parent = next
                 next = next.right
-            next.right += value
-            
+            current_parent.right += value
 
-def update_closest_neighbor_right(pair) -> bool:
+
+def update_closest_neighbor_right(pair, value) -> bool:
     parent = pair.parent
     if parent is None:
         return False
@@ -95,26 +130,34 @@ def update_closest_neighbor_right(pair) -> bool:
             return True
         else:
             next = parent.right
+            current_parent = parent
             while type(next) != int:
+                current_parent = next
                 next = next.left
-            next.left += value           
+            current_parent.left += value
     else:
         if parent.parent is None:
             return False
-        while parent.parent.left != parent:
+        find_parent = True
+        while find_parent:
             if parent.parent is None:
                 return False
+            if parent.parent.right != parent:
+                find_parent = False
             parent = parent.parent
-            
+
         if type(parent.right) == int:
             parent.right += value
             return True
         else:
             next = parent.right
+            current_parent = parent
             while type(next) != int:
+                current_parent = next
                 next = next.left
-            next.left += value
-    
+            current_parent.left += value
+
+
 def find_pair_to_split(pair) -> bool:
     if type(pair.left) == int and pair.left >= 10:
         new_pair = split_number(pair.left)
@@ -123,7 +166,7 @@ def find_pair_to_split(pair) -> bool:
         pair.left = new_pair
         return True
     elif type(pair.left) == int:
-        return False
+        pass
     else:
         left = find_pair_to_split(pair.left)
         if left:
@@ -136,7 +179,7 @@ def find_pair_to_split(pair) -> bool:
         pair.right = new_pair
         return True
     elif type(pair.right) == int:
-        return False
+        pass
     else:
         right = find_pair_to_split(pair.right)
         if right:
@@ -144,12 +187,13 @@ def find_pair_to_split(pair) -> bool:
             return right
     return False
 
-    
+
 def split_number(num: int) -> Node:
-    a = math.floor(num/2)
-    b = math.ceil(num/2)
+    a = math.floor(num / 2)
+    b = math.ceil(num / 2)
     return Node(None, None, a, b)
-    
+
+
 def reduce_pair(pair):
     keep_reducing = True
     while keep_reducing:
@@ -164,10 +208,11 @@ def reduce_pair(pair):
             continue
         split = find_pair_to_split(pair)
         if split:
-           continue
-           
+            continue
+
         keep_reducing = False
     return pair
+
 
 def sum_pairs(pair1, pair2) -> Node:
     new_root = Node(None, None, pair1, pair2)
@@ -177,7 +222,8 @@ def sum_pairs(pair1, pair2) -> Node:
     new_root.right.parent = new_root
     reduce_pair(new_root)
     return new_root
-    
+
+
 def magnitude(pair) -> int:
     left = 0
     right = 0
@@ -190,23 +236,38 @@ def magnitude(pair) -> int:
     else:
         right += magnitude(pair.right)
     return (left * 3) + (right * 2)
-        
 
-def run():
-    pairs = read_input()
-    print(len(pairs))
-    sum = reduce_pair(pairs[0])
+
+def sum_list_of_pairs(pairs):
+    sum_result = reduce_pair(pairs[0])
     for pair in pairs[1:]:
-        sum = sum_pairs(sum, pair)
-        
-    final_magnitude = magnitude(sum)
-    print(final_magnitude)
-        
-    
-#    (successful, best_y) = search(target_details)
-#    print(f"Part 1: {best_y}")
-#    print(f"Part 2: {successful}")
+        # print(sum_result)
+        sum_result = sum_pairs(sum_result, pair)
+    # print(sum_result)
+    return sum_result
+
+
+def do_homework(pairs):
+    # print(len(pairs))
+    sum_result = sum_list_of_pairs(pairs)
+
+    final_magnitude = magnitude(sum_result)
+    # print(final_magnitude)
+    return final_magnitude
+
+
+def find_largest_mag(pairs):
+    largest_mag = 0
+    for pair_of_pairs in permutations(pairs, 2):
+        copy = deepcopy(pair_of_pairs)
+        mag = do_homework(copy)
+        if mag > largest_mag:
+            largest_mag = mag
+    return largest_mag
 
 
 if __name__ == "__main__":
-    run()
+    part1 = do_homework(read_input())
+    print(f"Part 1: {part1}")
+    part2 = find_largest_mag(read_input())
+    print(f"Part 2: {part2}")
