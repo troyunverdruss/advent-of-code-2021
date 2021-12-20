@@ -1,6 +1,12 @@
 from unittest import TestCase
 
-from lib.day_17 import parse_input, simulate, search
+import sys, pathlib
+
+_path = str(pathlib.Path().absolute())
+if _path not in sys.path:
+    sys.path.append(_path)
+		
+from day_17 import parse_input, simulate, search
 
 
 class Test(TestCase):
