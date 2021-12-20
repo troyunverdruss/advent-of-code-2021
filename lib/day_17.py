@@ -26,7 +26,7 @@ class SimulationResult:
 
 
 def read_input() -> str:
-    with open("input/day17.txt") as f:
+    with open("../input/day17.txt") as f:
         return f.readlines()[0]
 
 
