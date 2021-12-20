@@ -1,0 +1,201 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="CheckEmptyScriptTag" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="97">
+            <item index="0" class="java.lang.String" itemvalue="align" />
+            <item index="1" class="java.lang.String" itemvalue="alt" />
+            <item index="2" class="java.lang.String" itemvalue="background-color" />
+            <item index="3" class="java.lang.String" itemvalue="background-height" />
+            <item index="4" class="java.lang.String" itemvalue="background-position" />
+            <item index="5" class="java.lang.String" itemvalue="background-repeat" />
+            <item index="6" class="java.lang.String" itemvalue="background-size" />
+            <item index="7" class="java.lang.String" itemvalue="background-url" />
+            <item index="8" class="java.lang.String" itemvalue="background-width" />
+            <item index="9" class="java.lang.String" itemvalue="base-url" />
+            <item index="10" class="java.lang.String" itemvalue="borderborder-bottom" />
+            <item index="11" class="java.lang.String" itemvalue="border-color" />
+            <item index="12" class="java.lang.String" itemvalue="border-left" />
+            <item index="13" class="java.lang.String" itemvalue="border-radius" />
+            <item index="14" class="java.lang.String" itemvalue="border-right" />
+            <item index="15" class="java.lang.String" itemvalue="border-style" />
+            <item index="16" class="java.lang.String" itemvalue="border-top" />
+            <item index="17" class="java.lang.String" itemvalue="border-width" />
+            <item index="18" class="java.lang.String" itemvalue="cellpadding" />
+            <item index="19" class="java.lang.String" itemvalue="cellspacing" />
+            <item index="20" class="java.lang.String" itemvalue="color" />
+            <item index="21" class="java.lang.String" itemvalue="container-background-color" />
+            <item index="22" class="java.lang.String" itemvalue="css-class" />
+            <item index="23" class="java.lang.String" itemvalue="direction" />
+            <item index="24" class="java.lang.String" itemvalue="fluid-on-mobile" />
+            <item index="25" class="java.lang.String" itemvalue="font-family" />
+            <item index="26" class="java.lang.String" itemvalue="font-size" />
+            <item index="27" class="java.lang.String" itemvalue="font-style" />
+            <item index="28" class="java.lang.String" itemvalue="font-weight" />
+            <item index="29" class="java.lang.String" itemvalue="full-width" />
+            <item index="30" class="java.lang.String" itemvalue="hamburger" />
+            <item index="31" class="java.lang.String" itemvalue="height" />
+            <item index="32" class="java.lang.String" itemvalue="href" />
+            <item index="33" class="java.lang.String" itemvalue="ico-align" />
+            <item index="34" class="java.lang.String" itemvalue="ico-close" />
+            <item index="35" class="java.lang.String" itemvalue="ico-font-family" />
+            <item index="36" class="java.lang.String" itemvalue="ico-font-size" />
+            <item index="37" class="java.lang.String" itemvalue="ico-line-height" />
+            <item index="38" class="java.lang.String" itemvalue="ico-open" />
+            <item index="39" class="java.lang.String" itemvalue="ico-padding" />
+            <item index="40" class="java.lang.String" itemvalue="ico-padding-bottom" />
+            <item index="41" class="java.lang.String" itemvalue="ico-padding-left" />
+            <item index="42" class="java.lang.String" itemvalue="ico-padding-right" />
+            <item index="43" class="java.lang.String" itemvalue="ico-padding-top" />
+            <item index="44" class="java.lang.String" itemvalue="ico-text-decoration" />
+            <item index="45" class="java.lang.String" itemvalue="ico-text-transform" />
+            <item index="46" class="java.lang.String" itemvalue="icon-align" />
+            <item index="47" class="java.lang.String" itemvalue="icon-height" />
+            <item index="48" class="java.lang.String" itemvalue="icon-padding" />
+            <item index="49" class="java.lang.String" itemvalue="icon-position" />
+            <item index="50" class="java.lang.String" itemvalue="icon-size" />
+            <item index="51" class="java.lang.String" itemvalue="icon-unwrapped-alt" />
+            <item index="52" class="java.lang.String" itemvalue="icon-unwrapped-url" />
+            <item index="53" class="java.lang.String" itemvalue="icon-width" />
+            <item index="54" class="java.lang.String" itemvalue="icon-wrapped-alt" />
+            <item index="55" class="java.lang.String" itemvalue="icon-wrapped-url" />
+            <item index="56" class="java.lang.String" itemvalue="inline" />
+            <item index="57" class="java.lang.String" itemvalue="inner-background-color" />
+            <item index="58" class="java.lang.String" itemvalue="inner-border" />
+            <item index="59" class="java.lang.String" itemvalue="inner-border-bottom" />
+            <item index="60" class="java.lang.String" itemvalue="inner-bottom-left" />
+            <item index="61" class="java.lang.String" itemvalue="inner-border-radius" />
+            <item index="62" class="java.lang.String" itemvalue="inner-border-right" />
+            <item index="63" class="java.lang.String" itemvalue="inner-border-top" />
+            <item index="64" class="java.lang.String" itemvalue="inner-padding" />
+            <item index="65" class="java.lang.String" itemvalue="left-icon" />
+            <item index="66" class="java.lang.String" itemvalue="letter-spacing" />
+            <item index="67" class="java.lang.String" itemvalue="line-height" />
+            <item index="68" class="java.lang.String" itemvalue="mj-class" />
+            <item index="69" class="java.lang.String" itemvalue="mode" />
+            <item index="70" class="java.lang.String" itemvalue="name" />
+            <item index="71" class="java.lang.String" itemvalue="padding" />
+            <item index="72" class="java.lang.String" itemvalue="padding-bottom" />
+            <item index="73" class="java.lang.String" itemvalue="padding-left" />
+            <item index="74" class="java.lang.String" itemvalue="padding-right" />
+            <item index="75" class="java.lang.String" itemvalue="padding-top" />
+            <item index="76" class="java.lang.String" itemvalue="rel" />
+            <item index="77" class="java.lang.String" itemvalue="right-icon" />
+            <item index="78" class="java.lang.String" itemvalue="src" />
+            <item index="79" class="java.lang.String" itemvalue="srcset" />
+            <item index="80" class="java.lang.String" itemvalue="table-layout" />
+            <item index="81" class="java.lang.String" itemvalue="target" />
+            <item index="82" class="java.lang.String" itemvalue="tb-border" />
+            <item index="83" class="java.lang.String" itemvalue="tb-border-radius" />
+            <item index="84" class="java.lang.String" itemvalue="tb-hover-border-color" />
+            <item index="85" class="java.lang.String" itemvalue="tb-selected-border-color" />
+            <item index="86" class="java.lang.String" itemvalue="tb-width" />
+            <item index="87" class="java.lang.String" itemvalue="text-align" />
+            <item index="88" class="java.lang.String" itemvalue="text-decoration" />
+            <item index="89" class="java.lang.String" itemvalue="text-padding" />
+            <item index="90" class="java.lang.String" itemvalue="text-transform" />
+            <item index="91" class="java.lang.String" itemvalue="thumbnails" />
+            <item index="92" class="java.lang.String" itemvalue="thumbnails-src" />
+            <item index="93" class="java.lang.String" itemvalue="title" />
+            <item index="94" class="java.lang.String" itemvalue="usemap" />
+            <item index="95" class="java.lang.String" itemvalue="vertical-align" />
+            <item index="96" class="java.lang.String" itemvalue="width" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="38">
+            <item index="0" class="java.lang.String" itemvalue="nobr" />
+            <item index="1" class="java.lang.String" itemvalue="noembed" />
+            <item index="2" class="java.lang.String" itemvalue="comment" />
+            <item index="3" class="java.lang.String" itemvalue="noscript" />
+            <item index="4" class="java.lang.String" itemvalue="embed" />
+            <item index="5" class="java.lang.String" itemvalue="script" />
+            <item index="6" class="java.lang.String" itemvalue="mj-all" />
+            <item index="7" class="java.lang.String" itemvalue="mj-accordion" />
+            <item index="8" class="java.lang.String" itemvalue="mj-accordion-element" />
+            <item index="9" class="java.lang.String" itemvalue="mj-accordion-text" />
+            <item index="10" class="java.lang.String" itemvalue="mj-accordion-title" />
+            <item index="11" class="java.lang.String" itemvalue="mj-attributes" />
+            <item index="12" class="java.lang.String" itemvalue="mj-body" />
+            <item index="13" class="java.lang.String" itemvalue="mj-breakpoint" />
+            <item index="14" class="java.lang.String" itemvalue="mj-button" />
+            <item index="15" class="java.lang.String" itemvalue="mj-carousel" />
+            <item index="16" class="java.lang.String" itemvalue="mj-class" />
+            <item index="17" class="java.lang.String" itemvalue="mj-column" />
+            <item index="18" class="java.lang.String" itemvalue="mj-divider" />
+            <item index="19" class="java.lang.String" itemvalue="mj-font" />
+            <item index="20" class="java.lang.String" itemvalue="mj-group" />
+            <item index="21" class="java.lang.String" itemvalue="mj-head" />
+            <item index="22" class="java.lang.String" itemvalue="mj-hero" />
+            <item index="23" class="java.lang.String" itemvalue="mj-image" />
+            <item index="24" class="java.lang.String" itemvalue="mj-include" />
+            <item index="25" class="java.lang.String" itemvalue="mj-navbar" />
+            <item index="26" class="java.lang.String" itemvalue="mj-preview" />
+            <item index="27" class="java.lang.String" itemvalue="mj-raw" />
+            <item index="28" class="java.lang.String" itemvalue="mj-section" />
+            <item index="29" class="java.lang.String" itemvalue="mj-spacer" />
+            <item index="30" class="java.lang.String" itemvalue="mj-style" />
+            <item index="31" class="java.lang.String" itemvalue="mj-table" />
+            <item index="32" class="java.lang.String" itemvalue="mj-text" />
+            <item index="33" class="java.lang.String" itemvalue="mj-title" />
+            <item index="34" class="java.lang.String" itemvalue="mj-wrapper" />
+            <item index="35" class="java.lang.String" itemvalue="mjml" />
+            <item index="36" class="java.lang.String" itemvalue="mj-gmail-action" />
+            <item index="37" class="java.lang.String" itemvalue="mj-scroll-footer" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="JavaDoc" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="TOP_LEVEL_CLASS_OPTIONS">
+        <value>
+          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
+          <option name="REQUIRED_TAGS" value="" />
+        </value>
+      </option>
+      <option name="INNER_CLASS_OPTIONS">
+        <value>
+          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
+          <option name="REQUIRED_TAGS" value="" />
+        </value>
+      </option>
+      <option name="METHOD_OPTIONS">
+        <value>
+          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
+          <option name="REQUIRED_TAGS" value="@return@param@throws or @exception" />
+        </value>
+      </option>
+      <option name="FIELD_OPTIONS">
+        <value>
+          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
+          <option name="REQUIRED_TAGS" value="" />
+        </value>
+      </option>
+      <option name="IGNORE_DEPRECATED" value="false" />
+      <option name="IGNORE_JAVADOC_PERIOD" value="true" />
+      <option name="IGNORE_DUPLICATED_THROWS" value="false" />
+      <option name="IGNORE_POINT_TO_ITSELF" value="false" />
+      <option name="myAdditionalJavadocTags" value="deprecated:" />
+    </inspection_tool>
+    <inspection_tool class="OptionalUsedAsFieldOrParameterType" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="SpellCheckingInspection" enabled="false" level="TYPO" enabled_by_default="false">
+      <option name="processCode" value="true" />
+      <option name="processLiterals" value="true" />
+      <option name="processComments" value="true" />
+    </inspection_tool>
+    <inspection_tool class="WeakerAccess" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="SUGGEST_PACKAGE_LOCAL_FOR_MEMBERS" value="false" />
+      <option name="SUGGEST_PACKAGE_LOCAL_FOR_TOP_CLASSES" value="false" />
+      <option name="SUGGEST_PRIVATE_FOR_INNERS" value="false" />
+    </inspection_tool>
+  </profile>
+</component>
