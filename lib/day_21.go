@@ -49,13 +49,8 @@ func playerTurn(player *Player, die *Die) {
 		rolled += roll
 		player.position += roll
 	}
-	player.position = player.position % 10
-	if player.position == 0 {
-		player.score += 10
-	} else {
-		player.score += player.position
-	}
-
+	player.position = modStartAt1(player.position, 10)
+	player.score += player.position
 	//fmt.Printf("Player turn %d, rolled %d, position %d, score: %d, die rolls %d\n", player.id, rolled, player.position, player.score, die.rolls)
 }
 
@@ -79,10 +74,12 @@ func (die *Die) roll() int {
 	roll := die.value
 	die.value += 1
 	die.rolls += 1
-	if die.value > 100 {
-		die.value = 1
-	}
+	die.value = modStartAt1(die.value, 100)
 	return roll
+}
+
+func modStartAt1(n int, m int) int {
+	return (((n + m) - 1) % m) + 1
 }
 
 func parseInput(lines []string) (int, int) {
