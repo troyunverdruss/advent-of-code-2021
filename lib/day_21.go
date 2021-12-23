@@ -20,7 +20,6 @@ func main() {
 
 	part2 := playGameDirac(player1Start, player2Start)
 	fmt.Println("Part 2: ", part2)
-	// too high 279504419265267
 }
 
 func playGameDirac(player1Start int, player2Start int) int64 {
