@@ -1,16 +1,26 @@
 import java.io.File
 import java.util.*
 import kotlin.RuntimeException
-import kotlin.collections.HashSet
 import kotlin.collections.LinkedHashMap
 
 object Day23 {
     @JvmStatic
     fun main(args: Array<String>) {
+        // Part 1
         val grid = parseInput(readInput())
         val adjacencyMap = buildAdjacencyList(grid)
         val startingState = State(grid.filter { it.value != '.' })
-        val winning = isStateWinner(startingState)
+
+        val winningStates = findSolutions(adjacencyMap, startingState)
+
+        val part1 = winningStates.map { it.cost() }.minOrNull() ?: throw RuntimeException("no solution found")
+        println("Part 1: $part1")
+
+        // Part 2
+
+    }
+
+    fun findSolutions(adjacencyMap: Map<Point, List<Point>>, startingState: State): LinkedList<State> {
         val statesToCheck = LinkedHashMap<String, State>()
         statesToCheck.put(startingState.key(), startingState
         )
@@ -29,7 +39,6 @@ object Day23 {
                 continue
             }
 
-
             stateToCheck.positions.forEach { point, amphipodType ->
 //                println(statesToCheckSize)
                 findDestinations(adjacencyMap, stateToCheck, point).forEach { dest ->
@@ -39,8 +48,8 @@ object Day23 {
                     val currMoveCounts = stateToCheck.moveCounts.toMutableMap()
                     currMoveCounts[amphipodType] = (currMoveCounts[amphipodType] ?: 0) + dest.value
                     val newState = State(
-                            positions = currPositions,
-                            moveCounts = currMoveCounts
+                        positions = currPositions,
+                        moveCounts = currMoveCounts
                     )
                     if (shouldAddForChecking(checkedStates, statesToCheck, newState)) {
                         statesToCheck.put(newState.key(), newState)
@@ -51,9 +60,7 @@ object Day23 {
                 }
             }
         }
-
-        val part1 = winningStates.map { it.cost() }.minOrNull() ?: throw RuntimeException("no solution found")
-        println("Part 1: $part1")
+        return winningStates
     }
 
     fun shouldAddForChecking(checkedStates: HashMap<String, Long>, statesToCheck: Map<String, State>, newState: State): Boolean {
