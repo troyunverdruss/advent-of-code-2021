@@ -1,6 +1,7 @@
 import java.io.File
-import java.lang.RuntimeException
 import java.util.*
+import kotlin.RuntimeException
+import kotlin.collections.HashSet
 import kotlin.collections.LinkedHashMap
 
 object Day23 {
@@ -8,22 +9,81 @@ object Day23 {
     fun main(args: Array<String>) {
         val grid = parseInput(readInput())
         val adjacencyMap = buildAdjacencyList(grid)
-        val startingState = State(0, grid.filter { it.value != '.' })
-        val dests = findDestinations(adjacencyMap, startingState, Point(4, 1))
-        val stateQueue = PriorityQueue<State>(compareBy { it.cost })
-        stateQueue.add(State(0, grid))
-        var winner: State? = null
-        while (stateQueue.isNotEmpty()) {
-            val state = stateQueue.poll()
-            nextOptions(state).forEach { next ->
-                if (winner(next)) {
-                    if (winner == null || winner!!.cost > next.cost) {
-                        winner = next.copy()
+        val startingState = State(grid.filter { it.value != '.' })
+        val winning = isStateWinner(startingState)
+        val statesToCheck = LinkedHashMap<String, State>()
+        statesToCheck.put(startingState.key(), startingState
+        )
+        val winningStates = LinkedList<State>()
+        var statesToCheckSize = statesToCheck.size
+        val checkedStates = HashMap<String, Long>()
+
+        while (statesToCheck.isNotEmpty()) {
+            val stateToCheckPair = statesToCheck.asIterable().first()
+            val stateToCheck = stateToCheckPair.value
+            statesToCheck.remove(stateToCheckPair.key)
+            checkedStates.put(stateToCheckPair.key, stateToCheck.cost())
+            statesToCheckSize -= 1
+            if (isStateWinner(stateToCheck)) {
+                winningStates.add(stateToCheck)
+                continue
+            }
+
+
+            stateToCheck.positions.forEach { point, amphipodType ->
+//                println(statesToCheckSize)
+                findDestinations(adjacencyMap, stateToCheck, point).forEach { dest ->
+                    val currPositions = stateToCheck.positions.toMutableMap()
+                    currPositions.remove(point)
+                    currPositions.put(dest.key, amphipodType)
+                    val currMoveCounts = stateToCheck.moveCounts.toMutableMap()
+                    currMoveCounts[amphipodType] = (currMoveCounts[amphipodType] ?: 0) + dest.value
+                    val newState = State(
+                            positions = currPositions,
+                            moveCounts = currMoveCounts
+                    )
+                    if (shouldAddForChecking(checkedStates, statesToCheck, newState)) {
+                        statesToCheck.put(newState.key(), newState)
+                        statesToCheckSize += 1
+                    } else {
+//                        println("skipping new state")
                     }
                 }
             }
-
         }
+
+        val part1 = winningStates.map { it.cost() }.minOrNull() ?: throw RuntimeException("no solution found")
+        println("Part 1: $part1")
+    }
+
+    fun shouldAddForChecking(checkedStates: HashMap<String, Long>, statesToCheck: Map<String, State>, newState: State): Boolean {
+        val key = newState.key()
+        if (checkedStates.containsKey(key) && checkedStates[key]!! > newState.cost()) {
+            return true
+        }
+        if (checkedStates.containsKey(key)) {
+            return false
+        }
+        if (statesToCheck.contains(key) && statesToCheck[key]!!.cost() > newState.cost()) {
+            return true
+        }
+        if (statesToCheck.contains(key)) {
+            return false
+        }
+        return true
+    }
+
+    fun isStateWinner(state: State): Boolean {
+        val a = allHome(state, 'A')
+        val b = allHome(state, 'B')
+        val c = allHome(state, 'C')
+        val d = allHome(state, 'D')
+        return a && b && c && d
+    }
+
+    private fun allHome(state: State, type: Char): Boolean {
+        return VALID_FINAL_STOPS[type]?.all { state.positions[it] == type }
+                ?: throw RuntimeException("missing lookup")
     }
 
     fun findDestinations(adjacencyMap: Map<Point, List<Point>>, state: State, start: Point): Map<Point, Int> {
@@ -42,12 +102,18 @@ object Day23 {
     }
 
     private fun isDisallowed(possibleDest: Map.Entry<Point, Int>, state: State, start: Point): Boolean {
-        val amphipodType = state.positions[start] ?: throw RuntimeException("amphipod not in state??")
+        val amphipodType = getAmphipodType(state, start)
         val home = VALID_FINAL_STOPS[amphipodType] ?: throw RuntimeException("amphipod home invalid??")
         // If I'm in my final destination, don't allow any moves
         if (home.contains(start)) {
-            return false
+            if (allHome(state, amphipodType)) {
+                return false
+            }
+            if (home.filter { it.y == 3 }.contains(start)) {
+                return false
+            }
         }
+
         // Don't allow moving if i'm in hallway and not heading home
         if (start.y == 1 && possibleDest.key.y == 1) {
             return false
@@ -60,11 +126,14 @@ object Day23 {
 
         // Don't allow moving to a half occupied hole if not matching
         val inHome = state.positions.filter { home.contains(it.key) }.map { it.value }
-        if (inHome.any { it != amphipodType }) {
+        if (home.contains(possibleDest.key) && inHome.any { it != amphipodType }) {
             return false
         }
         return true
     }
+
+    private fun getAmphipodType(state: State, start: Point) =
+            state.positions[start] ?: throw RuntimeException("amphipod not in state??")
 
     private fun validNextSteps(adjacencyMap: Map<Point, List<Point>>, start: Point, dist: Int, state: State, visited: MutableMap<Point, Int>): MutableList<Pair<Point, Int>> {
         return adjacencyMap[start]
@@ -129,7 +198,17 @@ object Day23 {
         return grid
     }
 
-    data class State(val cost: Long, val positions: Map<Point, Char>)
+    data class State(val positions: Map<Point, Char>, val moveCounts: Map<Char, Int> = mapOf()) {
+        fun key() = positions.map { it.toString() }.sorted().joinToString()
+        fun cost(): Long {
+            val a = (moveCounts['A'] ?: 0) * 1L
+            val b = (moveCounts['B'] ?: 0) * 10L
+            val c = (moveCounts['C'] ?: 0) * 100L
+            val d = (moveCounts['D'] ?: 0) * 1000L
+            return a + b + c + d
+        }
+    }
+
     data class Point(val x: Int, val y: Int) {
         operator fun plus(other: Point): Point {
             return Point(this.x + other.x, this.y + other.y)
