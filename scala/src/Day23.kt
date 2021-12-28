@@ -8,19 +8,44 @@ object Day23 {
     fun main(args: Array<String>) {
         // Part 1
         val grid = parseInput(readInput())
-        val adjacencyMap = buildAdjacencyList(grid)
+
+        val lookups = buildLookups(grid)
+
+        val adjacencyMap = buildAdjacencyMap(grid)
         val startingState = State(grid.filter { it.value != '.' })
 
-        val winningStates = findSolutions(adjacencyMap, startingState)
+        val winningStates = findSolutions(adjacencyMap, startingState, lookups)
 
         val part1 = winningStates.map { it.cost() }.minOrNull() ?: throw RuntimeException("no solution found")
         println("Part 1: $part1")
 
         // Part 2
+        val rawInput = readInput()
+        val part2BonusLines = listOf(
+            "  #D#C#B#A#",
+            "  #D#B#A#C#"
+        )
+        val composedLines = listOf(
+            rawInput[0],
+            rawInput[1],
+            rawInput[2],
+            part2BonusLines[0],
+            part2BonusLines[1],
+            rawInput[3],
+            rawInput[4],
+        )
+        val grid2 = parseInput(composedLines)
+        val lookups2 = buildLookups(grid2)
+        val adjacencyMap2 = buildAdjacencyMap(grid2)
+        val startingState2 = State(grid2.filter { it.value != '.' })
 
+        val winningStates2 = findSolutions(adjacencyMap2, startingState2, lookups2)
+
+        val part2 = winningStates2.map { it.cost() }.minOrNull() ?: throw RuntimeException("no solution found")
+        println("Part 2: $part2")
     }
 
-    fun findSolutions(adjacencyMap: Map<Point, List<Point>>, startingState: State): LinkedList<State> {
+    fun findSolutions(adjacencyMap: Map<Point, List<Point>>, startingState: State, lookups: Lookups): LinkedList<State> {
         val statesToCheck = LinkedHashMap<String, State>()
         statesToCheck.put(startingState.key(), startingState
         )
@@ -34,14 +59,14 @@ object Day23 {
             statesToCheck.remove(stateToCheckPair.key)
             checkedStates.put(stateToCheckPair.key, stateToCheck.cost())
             statesToCheckSize -= 1
-            if (isStateWinner(stateToCheck)) {
+            if (isStateWinner(stateToCheck, lookups)) {
                 winningStates.add(stateToCheck)
                 continue
             }
 
             stateToCheck.positions.forEach { point, amphipodType ->
-//                println(statesToCheckSize)
-                findDestinations(adjacencyMap, stateToCheck, point).forEach { dest ->
+                println(statesToCheckSize)
+                findDestinations(adjacencyMap, stateToCheck, lookups, point).forEach { dest ->
                     val currPositions = stateToCheck.positions.toMutableMap()
                     currPositions.remove(point)
                     currPositions.put(dest.key, amphipodType)
@@ -80,20 +105,20 @@ object Day23 {
         return true
     }
 
-    fun isStateWinner(state: State): Boolean {
-        val a = allHome(state, 'A')
-        val b = allHome(state, 'B')
-        val c = allHome(state, 'C')
-        val d = allHome(state, 'D')
+    fun isStateWinner(state: State, lookups: Lookups): Boolean {
+        val a = allHome(lookups, state, 'A')
+        val b = allHome(lookups, state, 'B')
+        val c = allHome(lookups, state, 'C')
+        val d = allHome(lookups, state, 'D')
         return a && b && c && d
     }
 
-    private fun allHome(state: State, type: Char): Boolean {
-        return VALID_FINAL_STOPS[type]?.all { state.positions[it] == type }
+    private fun allHome(lookups: Lookups, state: State, type: Char): Boolean {
+        return lookups.homes[type]?.all { state.positions[it] == type }
                 ?: throw RuntimeException("missing lookup")
     }
 
-    fun findDestinations(adjacencyMap: Map<Point, List<Point>>, state: State, start: Point): Map<Point, Int> {
+    fun findDestinations(adjacencyMap: Map<Point, List<Point>>, state: State, lookups: Lookups, start: Point): Map<Point, Int> {
         val visited = mutableMapOf<Point, Int>()
         val unvisited = validNextSteps(adjacencyMap, start, 0, state, visited)
         while (unvisited.isNotEmpty()) {
@@ -103,17 +128,17 @@ object Day23 {
         }
 
         return visited
-                .filter { !(INVALID_STOPS_LOOKUP[state.positions[start]]?.contains(it.key) ?: false) }
-                .filter { isDisallowed(it, state, start) }
+                .filter { !(lookups.invalidStops[state.positions[start]]?.contains(it.key) ?: false) }
+                .filter { isDisallowed(it, lookups, state, start) }
 
     }
 
-    private fun isDisallowed(possibleDest: Map.Entry<Point, Int>, state: State, start: Point): Boolean {
+    private fun isDisallowed(possibleDest: Map.Entry<Point, Int>, lookups: Lookups, state: State, start: Point): Boolean {
         val amphipodType = getAmphipodType(state, start)
-        val home = VALID_FINAL_STOPS[amphipodType] ?: throw RuntimeException("amphipod home invalid??")
+        val home = lookups.homes[amphipodType] ?: throw RuntimeException("amphipod home invalid??")
         // If I'm in my final destination, don't allow any moves
         if (home.contains(start)) {
-            if (allHome(state, amphipodType)) {
+            if (allHome(lookups, state, amphipodType)) {
                 return false
             }
             if (home.filter { it.y == 3 }.contains(start)) {
@@ -151,7 +176,7 @@ object Day23 {
     }
 
 
-    fun buildAdjacencyList(grid: Map<Point, Char>): Map<Point, List<Point>> {
+    fun buildAdjacencyMap(grid: Map<Point, Char>): Map<Point, List<Point>> {
         val neighbors = listOf(Point(-1, 0), Point(1, 0), Point(0, -1), Point(0, 1))
         return grid.keys.map { k ->
             val ns = neighbors
@@ -161,25 +186,6 @@ object Day23 {
             Pair(k, ns)
         }.toMap()
     }
-//    data class Edge(val a: String, val b: String, val d: Int)
-//    fun adjacencyMap(): Map<String, List<String>> {
-//        listOf(
-//                Edge("H1", "H2", 1),
-//                Edge("H2", "H3", 2),
-//                Edge("H2", "A1", 2),
-//                Edge("A1", "A2", 1),
-//                Edge("H3", "H4"),
-//                Edge("H3", "B1"),
-//                Edge("B1", "B2"),
-//                Edge("H4", "H5"),
-//                Edge("H4", "C1"),
-//                Edge("C1", "C2"),
-//                Edge("C1", "C2"),
-//                Edge("H5", "H6"),
-//
-//
-//        )
-//    }
 
     private fun winner(next: State): Boolean {
         TODO("Not yet implemented")
@@ -205,6 +211,24 @@ object Day23 {
         return grid
     }
 
+    data class Lookups(val invalidStops: Map<Char, List<Point>>, val homes: Map<Char, List<Point>>)
+
+    fun buildLookups(grid: Map<Point, Char>): Lookups {
+        val homes = mapOf(
+            'A' to grid.keys.filter { it.x == 3 && it.y > 1 },
+            'B' to grid.keys.filter { it.x == 5 && it.y > 1 },
+            'C' to grid.keys.filter { it.x == 7 && it.y > 1 },
+            'D' to grid.keys.filter { it.x == 9 && it.y > 1 },
+        )
+        val invalidStops = mapOf(
+            'A' to ALWAYS_INVALID_STOPS + grid.keys.filter { it.x != 3 && it.y > 1 },
+            'B' to ALWAYS_INVALID_STOPS + grid.keys.filter { it.x != 5 && it.y > 1 },
+            'C' to ALWAYS_INVALID_STOPS + grid.keys.filter { it.x != 7 && it.y > 1 },
+            'D' to ALWAYS_INVALID_STOPS + grid.keys.filter { it.x != 9 && it.y > 1 },
+        )
+        return Lookups(invalidStops, homes)
+    }
+
     data class State(val positions: Map<Point, Char>, val moveCounts: Map<Char, Int> = mapOf()) {
         fun key() = positions.map { it.toString() }.sorted().joinToString()
         fun cost(): Long {
@@ -222,39 +246,11 @@ object Day23 {
         }
     }
 
-    private val INVALID_STOPS = listOf(
+    private val ALWAYS_INVALID_STOPS = listOf(
             Point(3, 1),
             Point(5, 1),
             Point(7, 1),
             Point(9, 1),
-    )
-    private val A_ONLY = listOf(
-            Point(3, 2),
-            Point(3, 3),
-    )
-    private val B_ONLY = listOf(
-            Point(5, 2),
-            Point(5, 3),
-    )
-    private val C_ONLY = listOf(
-            Point(7, 2),
-            Point(7, 3),
-    )
-    private val D_ONLY = listOf(
-            Point(9, 2),
-            Point(9, 3),
-    )
-    private val INVALID_STOPS_LOOKUP = mapOf(
-            'A' to INVALID_STOPS + B_ONLY + C_ONLY + D_ONLY,
-            'B' to INVALID_STOPS + A_ONLY + C_ONLY + D_ONLY,
-            'C' to INVALID_STOPS + A_ONLY + B_ONLY + D_ONLY,
-            'D' to INVALID_STOPS + A_ONLY + B_ONLY + C_ONLY,
-    )
-    private val VALID_FINAL_STOPS = mapOf(
-            'A' to A_ONLY,
-            'B' to B_ONLY,
-            'C' to C_ONLY,
-            'D' to D_ONLY,
     )
 }
 
