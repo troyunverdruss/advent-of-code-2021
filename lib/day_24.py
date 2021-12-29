@@ -4,7 +4,9 @@ from collections import deque
 from copy import deepcopy
 from dataclasses import dataclass
 from enum import Enum
+from random import random, randrange
 from typing import List, Union, Optional
+from itertools import product
 
 
 class ALU:
@@ -137,18 +139,104 @@ def parse_input(input_lines: List[str]) -> List[Instruction]:
     return instructions
 
 
+@dataclass(frozen=True)
+class regYZ:
+    y: int
+    z: int
+
+
 def run():
     instructions = parse_input(read_input())
-    for i in range(1,10):
+    # a = 1
+    # b = 2
+    # c = 3
+    # d = 4
+    # # e = 5
+    products = product(
+        range(1, 10),  # a
+        range(1, 10),  # b
+        range(1, 10),  # c
+        range(1, 10),  # d
+    )
+    eqOrNot = {True: 0, False: 0}
+    distinctStates = set()
+    for prod in products:
+        (a, b, c, d) = prod
         alu = ALU(
-            f"{i}",
-            instructions[0:18]
+            f"{a}{b}{c}{d}",
+            instructions[0:(18 * 4)]
         )
         # alu.debug = True
         alu.run()
-        print(f"{i}: {alu.registers}")
+        # print(f"{i}: {alu.registers}")
+        assert alu.registers['w'] == d
+        assert alu.registers['x'] == 1
+        assert alu.registers['y'] == d + 2
+        assert alu.registers['z'] == 26 * (26 * (26 * (a + 12) + b + 7) + c + 1) + d + 2
+
+        distinctStates.add(
+            regYZ(
+                (d + 2),
+                ((26 * (26 * (26 * (a + 12) + b + 7) + c + 1) + d + 2) // 26)
+            )
+        )
+        # if (26 * (26 * (26 * (a + 12) + b + 7) + c + 1) + d + 2) // 26 == ((
+        #         26 * (26 * (26 * (a + 12) + b + 7) + c + 1)) // 26) + ((d + 2) // 26):
+        #     eqOrNot[True] += 1
+        # else:
+        #     eqOrNot[False] += 1
+        # distinctStates.add(str(sorted(alu.registers.items())))
+        # print(f"{alu.registers['z']} % 26 => {alu.registers['z'] % 26}")
+    # print(eqOrNot)
+    print(f'distinct states: {len(distinctStates)}')
     x = 0
 
 
+def find_valid_model_numbers_sequentially():
+    instructions = parse_input(read_input())
+    maybe_model_number = "1" * 14
+    while True:
+        alu = ALU(
+            maybe_model_number,
+            instructions
+        )
+        alu.run()
+        if alu.registers['z'] == 0:
+            print(f"Valid model number: {maybe_model_number}")
+        maybe_model_number_int = int(maybe_model_number)
+        while True:
+            maybe_model_number_int += 1
+            if "0" not in str(maybe_model_number_int):
+                maybe_model_number = str(maybe_model_number_int)
+                break
+
+
+def find_valid_model_numbers_random():
+    instructions = parse_input(read_input())
+    maybe_model_number = "1" * 14
+    while True:
+        alu = ALU(
+            maybe_model_number,
+            instructions
+        )
+        alu.run()
+        if alu.registers['z'] == 0:
+            print(f"Valid model number: {maybe_model_number}")
+        maybe_model_number_int = int(maybe_model_number)
+        while True:
+            maybe_model_number_int = "13579246899999"
+            if "0" not in str(maybe_model_number_int):
+                maybe_model_number = str(maybe_model_number_int)
+                break
+
+
+def gen_random_14_digit_number():
+    s = ""
+    while len(s) < 14:
+        s += str(randrange(1, 10))
+    return s
+
+
 if __name__ == '__main__':
+    # find_valid_model_numbers_random()
     run()
