@@ -1,15 +1,18 @@
+from __future__ import annotations
+
 from collections import deque
+from copy import deepcopy
 from dataclasses import dataclass
 from enum import Enum
 from typing import List, Union, Optional
-from __future__ import annotations
 
 
 class ALU:
     def __init__(self, model_number: str, instructions: List[Instruction]):
         self.model_number = deque(map(lambda x: int(x), list(model_number)))
-        self.instructions = instructions
+        self.instructions = deepcopy(instructions)
         self.pointer = 0
+        self.debug = False
         self.registers = {
             'w': 0,
             'x': 0,
@@ -29,6 +32,8 @@ class ALU:
 
     def step(self):
         instruction = self.instructions[self.pointer]
+        if self.debug:
+            print(f"{self.pointer}  ||  {instruction}  ||  {self.registers}")
         if instruction.op == Op.INP:
             if len(self.model_number) == 0:
                 raise Exception("Model numbers exhaused already")
@@ -54,10 +59,10 @@ class ALU:
             a = self.get_value(instruction.a)
             b = self.get_value(instruction.b)
             self.assert_register(instruction.a)
-            if a == 0:
-                raise Exception("Can't mod with a == 0")
+            if a < 0:
+                raise Exception("Can't mod with a < 0")
             if b <= 0:
-                raise Exception(f"Can't mod by zero/neg b: #{b}")
+                raise Exception(f"Can't mod by b <= 0: #{b}")
             self.registers[instruction.a] = a % b
         elif instruction.op == Op.EQL:
             a = self.get_value(instruction.a)
@@ -71,7 +76,7 @@ class ALU:
     def get_value(self, arg: Union[str, int]) -> int:
         if arg in ['w', 'x', 'y', 'z']:
             return self.registers[arg]
-        return arg
+        return int(arg)
 
     def assert_register(self, arg: str) -> None:
         if arg not in ['w', 'x', 'y', 'z']:
@@ -81,13 +86,13 @@ class ALU:
 def parse(s: str) -> Op:
     if s == 'inp':
         return Op.INP
-    if s == 'ad':
+    if s == 'add':
         return Op.ADD
     if s == 'mul':
         return Op.MUL
     if s == 'div':
         return Op.DIV
-    if s == 'MOD':
+    if s == 'mod':
         return Op.MOD
     if s == 'eql':
         return Op.EQL
@@ -110,14 +115,14 @@ class Instruction:
 
 
 def read_input() -> List[str]:
-    with open("input/day16.txt") as f:
+    with open("input/day24.txt") as f:
         return f.readlines()
 
 
 def parse_input(input_lines: List[str]) -> List[Instruction]:
     instructions = []
     for line in input_lines:
-        parts = line.split(" ")
+        parts = line.strip().split(" ")
         if len(parts) == 2:
             b = None
         else:
@@ -131,3 +136,19 @@ def parse_input(input_lines: List[str]) -> List[Instruction]:
         )
     return instructions
 
+
+def run():
+    instructions = parse_input(read_input())
+    for i in range(1,10):
+        alu = ALU(
+            f"{i}",
+            instructions[0:18]
+        )
+        # alu.debug = True
+        alu.run()
+        print(f"{i}: {alu.registers}")
+    x = 0
+
+
+if __name__ == '__main__':
+    run()
