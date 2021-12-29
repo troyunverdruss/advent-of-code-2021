@@ -29,3 +29,4 @@ for line in z:
     for item in line:
         print(item.rjust(10), end='')
     print()
+    print()
