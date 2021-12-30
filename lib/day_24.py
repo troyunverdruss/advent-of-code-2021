@@ -8,6 +8,8 @@ from random import random, randrange
 from typing import List, Union, Optional
 from itertools import product
 
+from lib.day_24_converted_to_python import day_24_py
+
 
 class ALU:
     def __init__(self, model_number: str, instructions: List[Instruction]):
@@ -26,6 +28,8 @@ class ALU:
         while self.pointer < len(self.instructions):
             self.step()
             self.pointer += 1
+        if self.debug:
+            print(f"{self.pointer}  ||  < END >  ||  {self.registers}")
 
     def valid_model_number(self) -> bool:
         if self.pointer == 0:
@@ -35,6 +39,8 @@ class ALU:
     def step(self):
         instruction = self.instructions[self.pointer]
         if self.debug:
+            if instruction.op == Op.INP:
+                print()
             print(f"{self.pointer}  ||  {instruction}  ||  {self.registers}")
         if instruction.op == Op.INP:
             if len(self.model_number) == 0:
@@ -164,22 +170,26 @@ def run():
         (a, b, c, d) = prod
         alu = ALU(
             f"{a}{b}{c}{d}",
+            # f"93574",
             instructions[0:(18 * 4)]
         )
         # alu.debug = True
         alu.run()
+        py_registers = day_24_py(f"{a}{b}{c}{d}")
+        assert alu.registers == py_registers
+        # break
         # print(f"{i}: {alu.registers}")
-        assert alu.registers['w'] == d
-        assert alu.registers['x'] == 1
-        assert alu.registers['y'] == d + 2
-        assert alu.registers['z'] == 26 * (26 * (26 * (a + 12) + b + 7) + c + 1) + d + 2
+        # assert alu.registers['w'] == d
+        # assert alu.registers['x'] == 1
+        # assert alu.registers['y'] == d + 2
+        # assert alu.registers['z'] == 26 * (26 * (26 * (a + 12) + b + 7) + c + 1) + d + 2
 
-        distinctStates.add(
-            regYZ(
-                (d + 2),
-                ((26 * (26 * (26 * (a + 12) + b + 7) + c + 1) + d + 2) // 26)
-            )
-        )
+        # distinctStates.add(
+        #     regYZ(
+        #         (d + 2),
+        #         ((26 * (26 * (26 * (a + 12) + b + 7) + c + 1) + d + 2) // 26)
+        #     )
+        # )
         # if (26 * (26 * (26 * (a + 12) + b + 7) + c + 1) + d + 2) // 26 == ((
         #         26 * (26 * (26 * (a + 12) + b + 7) + c + 1)) // 26) + ((d + 2) // 26):
         #     eqOrNot[True] += 1
@@ -188,7 +198,7 @@ def run():
         # distinctStates.add(str(sorted(alu.registers.items())))
         # print(f"{alu.registers['z']} % 26 => {alu.registers['z'] % 26}")
     # print(eqOrNot)
-    print(f'distinct states: {len(distinctStates)}')
+    # print(f'distinct states: {len(distinctStates)}')
     x = 0
 
 
@@ -206,7 +216,7 @@ def find_valid_model_numbers_sequentially():
         maybe_model_number_int = int(maybe_model_number)
         while True:
             maybe_model_number_int += 1
-            if "0" not in str(maybe_model_number_int):
+            if "0" not in str(maybe_model_number_int) and sum(map(int, list(str(maybe_model_number_int)))) == 26:
                 maybe_model_number = str(maybe_model_number_int)
                 break
 
@@ -224,7 +234,7 @@ def find_valid_model_numbers_random():
             print(f"Valid model number: {maybe_model_number}")
         maybe_model_number_int = int(maybe_model_number)
         while True:
-            maybe_model_number_int = "13579246899999"
+            maybe_model_number_int = "58111111111111"
             if "0" not in str(maybe_model_number_int):
                 maybe_model_number = str(maybe_model_number_int)
                 break
@@ -236,7 +246,10 @@ def gen_random_14_digit_number():
         s += str(randrange(1, 10))
     return s
 
+# def gen_14_digit_number_with_digits_summing_26():
+
+
 
 if __name__ == '__main__':
-    # find_valid_model_numbers_random()
+    # find_valid_model_numbers_sequentially()
     run()
