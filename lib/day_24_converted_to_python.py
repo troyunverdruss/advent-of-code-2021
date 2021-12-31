@@ -57,22 +57,24 @@ def day_24_py(model_number: str, w=0, x=0, y=0, z=0):
 
 if __name__ == '__main__':
     a = 1
-    b = 2
-    c = 9
-    d = 9
+    b = 1
+    c = 8
+    d = 4
     e = d + 2 - 5
-    f = 9
-    g = 9
+    f = 2
+    g = 3
     h = g + 11 - 13
     i = f + 15 - 16
     j = c + 1 - 8
-    k = 9
+    k = 7
     l = k + 2 - 8
     m = b + 7
     n = a + 12 - 4
     result_registers = day_24_py(f"{a}{b}{c}{d}{e}{f}{g}{h}{i}{j}{k}{l}{m}{n}")
+    num = f"{a}{b}{c}{d}{e}{f}{g}{h}{i}{j}{k}{l}{m}{n}"
     yyyyy = 9
 
     # maybe:
     # '11952342228289' (works)
-    # '12996997829399' (
+    # '12996997829399' (works max)
+    # '11841231117189' (works min)
