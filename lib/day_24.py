@@ -166,18 +166,21 @@ def run():
     )
     eqOrNot = {True: 0, False: 0}
     distinctStates = set()
+    test_number = '12996997829399'
     for prod in products:
         (a, b, c, d) = prod
         alu = ALU(
-            f"{a}{b}{c}{d}",
-            # f"93574",
-            instructions[0:(18 * 4)]
+            # f"{a}{b}{c}{d}",
+            test_number,
+            instructions
         )
         # alu.debug = True
         alu.run()
-        py_registers = day_24_py(f"{a}{b}{c}{d}")
+        # py_registers = day_24_py(f"{a}{b}{c}{d}")
+        py_registers = day_24_py(test_number)
         assert alu.registers == py_registers
-        # break
+        print(py_registers)
+        break
         # print(f"{i}: {alu.registers}")
         # assert alu.registers['w'] == d
         # assert alu.registers['x'] == 1
